@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { FaGithub, FaLinkedin, FaBars } from "react-icons/fa";
+import emailjs from "@emailjs/browser";
+import { useState } from "react";
 import {
   SiPython,
   SiReact,
@@ -22,14 +24,49 @@ const skills = [
 ];
 
 export default function Home() {
+  const [formData, setFormData] = useState({
+  from_name: "",
+  from_email: "",
+  subject: "",
+  message: "",
+});
+
+const sendEmail = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    await emailjs.send(
+      "service_jm5gkko",
+      "template_nidtohk",
+      formData,
+      "jdijUeEZIdAZgleSu"
+    );
+
+    alert("Message sent successfully!");
+
+    setFormData({
+      from_name: "",
+      from_email: "",
+      subject: "",
+      message: "",
+    });
+  } catch (error: any) {
+    console.log("EMAILJS ERROR:", error);
+
+    alert(
+      error?.text ||
+      error?.message ||
+      JSON.stringify(error)
+    );
+  }
+};
   return (
+
     <main className="overflow-hidden bg-white text-black">
       <nav className="fixed left-0 top-0 z-50 w-full border-b border-black/5 bg-white/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-12">
           <div className="flex flex-col leading-tight">
-            <span className="text-xs font-black uppercase tracking-[3px] text-black sm:text-sm md:text-base">
-              Stay Hungry
-            </span>
+            
             <span className="text-[10px] font-medium tracking-wide text-gray-400 sm:text-xs md:text-sm">
               If it’s difficult, that’s the point.
             </span>
@@ -69,6 +106,7 @@ export default function Home() {
           </div>
 
           <div className="lg:hidden">
+            
             <FaBars className="text-xl text-black" />
           </div>
         </div>
@@ -248,7 +286,7 @@ export default function Home() {
               <p className="mb-2 text-sm font-black uppercase tracking-wide">
                 Email Me:
               </p>
-              <p className="text-gray-500">saicharan@gmail.com</p>
+              <p className="text-gray-500">saicharan.b@2027@gmail.com</p>
             </div>
 
             <div>
@@ -277,36 +315,59 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="rounded-[30px] bg-[#f7f7f7] p-8 md:p-10">
-            <div className="grid gap-6 md:grid-cols-2">
-              <input
-                type="text"
-                placeholder="Sai Charan"
-                className="w-full rounded-2xl border border-black/20 bg-transparent px-5 py-4 outline-none transition focus:border-black"
-              />
-              <input
-                type="email"
-                placeholder="yourmail@gmail.com"
-                className="w-full rounded-2xl border border-black/20 bg-transparent px-5 py-4 outline-none transition focus:border-black"
-              />
-            </div>
+        <form
+  onSubmit={sendEmail}
+  className="rounded-[30px] bg-[#f7f7f7] p-8 md:p-10"
+>
+  <div className="grid gap-6 md:grid-cols-2">
+    <input
+      type="text"
+      placeholder="Your Name"
+      value={formData.from_name}
+      onChange={(e) =>
+        setFormData({ ...formData, from_name: e.target.value })
+      }
+      className="w-full rounded-2xl border border-black/20 bg-transparent px-5 py-4 outline-none transition focus:border-black"
+    />
 
-            <input
-              type="text"
-              placeholder="Your Subject"
-              className="mt-6 w-full rounded-2xl border border-black/20 bg-transparent px-5 py-4 outline-none transition focus:border-black"
-            />
+    <input
+      type="email"
+      placeholder="yourmail@gmail.com"
+      value={formData.from_email}
+      onChange={(e) =>
+        setFormData({ ...formData, from_email: e.target.value })
+      }
+      className="w-full rounded-2xl border border-black/20 bg-transparent px-5 py-4 outline-none transition focus:border-black"
+    />
+  </div>
 
-            <textarea
-              rows={6}
-              placeholder="Write Your Message"
-              className="mt-6 w-full rounded-2xl border border-black/20 bg-transparent px-5 py-4 outline-none transition focus:border-black"
-            ></textarea>
+  <input
+    type="text"
+    placeholder="Your Subject"
+    value={formData.subject}
+    onChange={(e) =>
+      setFormData({ ...formData, subject: e.target.value })
+    }
+    className="mt-6 w-full rounded-2xl border border-black/20 bg-transparent px-5 py-4 outline-none transition focus:border-black"
+  />
 
-            <button className="mt-8 rounded-2xl bg-black px-10 py-4 text-sm font-semibold text-white transition hover:scale-105">
-              Send Me Message
-            </button>
-          </div>
+  <textarea
+    rows={6}
+    placeholder="Write Your Message"
+    value={formData.message}
+    onChange={(e) =>
+      setFormData({ ...formData, message: e.target.value })
+    }
+    className="mt-6 w-full rounded-2xl border border-black/20 bg-transparent px-5 py-4 outline-none transition focus:border-black"
+  />
+
+  <button
+    type="submit"
+    className="mt-8 rounded-2xl bg-black px-10 py-4 text-sm font-semibold text-white transition hover:scale-105"
+  >
+    Send Me Message
+  </button>
+</form>
         </div>
       </section>
     </main>
