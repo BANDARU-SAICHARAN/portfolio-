@@ -36,11 +36,17 @@ const sendEmail = async (e: React.FormEvent) => {
 
   try {
     await emailjs.send(
-      "service_jm5gkko",
-      "template_nidtohk",
-      formData,
-      "jdijUeEZIdAZgleSu"
-    );
+  process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
+  process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+  {
+    name: formData.from_name,
+    email: formData.from_email,
+    subject: formData.subject,
+    message: formData.message,
+  },
+  process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!
+);
+   
 
     alert("Message sent successfully!");
 
@@ -279,14 +285,14 @@ const sendEmail = async (e: React.FormEvent) => {
               <p className="mb-2 text-sm font-black uppercase tracking-wide">
                 Location:
               </p>
-              <p className="text-gray-500">Bangalore, India</p>
+              <p className="text-gray-500">Bangalore,karnataka,India</p>
             </div>
 
             <div className="mb-10">
               <p className="mb-2 text-sm font-black uppercase tracking-wide">
                 Email Me:
               </p>
-              <p className="text-gray-500">saicharan.b@2027@gmail.com</p>
+              <p className="text-gray-500">saicharan.b2027@gmail.com</p>
             </div>
 
             <div>
@@ -295,7 +301,7 @@ const sendEmail = async (e: React.FormEvent) => {
               </p>
               <div className="flex gap-4">
                 <a
-                  href="https://linkedin.com/in/your-linkedin"
+                  href="https://www.linkedin.com/in/sai-charan2027/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-14 w-14 items-center justify-center border border-black/10 bg-white text-xl transition hover:bg-black hover:text-white"
